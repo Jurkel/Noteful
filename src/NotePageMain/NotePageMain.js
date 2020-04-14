@@ -1,7 +1,6 @@
 import React from 'react'
 import Note from '../Note/Note'
 import ApiContext from '../ApiContext'
-import { findNote } from '../notes-helpers'
 import './NotePageMain.css'
 
 export default class NotePageMain extends React.Component {
@@ -10,6 +9,10 @@ export default class NotePageMain extends React.Component {
       params: {}
     }
   }
+
+  findNote = (notes=[], noteId) =>
+  notes.find(note => note.id === noteId)
+
   static contextType = ApiContext
 
   handleDeleteNote = noteId => {
@@ -19,7 +22,7 @@ export default class NotePageMain extends React.Component {
   render() {
     const { notes=[] } = this.context
     const { noteId } = this.props.match.params
-    const note = findNote(notes, noteId) || { content: '' }
+    const note = this.findNote(notes, noteId) || { content: '' }
     return (
       <section className='NotePageMain'>
         <Note
