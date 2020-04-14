@@ -1,5 +1,4 @@
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import CircleButton from '../CircleButton/CircleButton'
 import './NotePageNav.css'
 
@@ -12,7 +11,6 @@ export default function NotePageNav(props) {
         onClick={() => props.history.goBack()}
         className='NotePageNav__back-button'
       >
-        <FontAwesomeIcon icon='chevron-left' />
         <br />
         Back
       </CircleButton>
