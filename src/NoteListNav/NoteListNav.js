@@ -1,42 +1,44 @@
 import React from 'react'
-import { NavLink, Link } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import CircleButton from '../CircleButton/CircleButton'
-import { countNotesForFolder } from '../note-helpers'
-import './NoteListNav.css'
+import ApiContext from '../ApiContext'
+import { findNote, findFolder } from '../notes-helpers'
+import './NotePageNav.css'
 
-export default function NoteListNav(props) {
-  return (
-    <div className='NoteListNav'>
-      <ul className='NoteListNav__list'>
-        {props.folders.map(folder =>
-          <li key={folder.id}>
-            <NavLink
-              className='NoteListNav__folder-link'
-              to={`/folder/${folder.id}`}
-            >
-              <span className='NoteListNav__num-notes'>
-                {countNotesForFolder(props.notes, folder.id)}
-              </span>
-              {folder.name}
-            </NavLink>
-          </li>
-        )}
-      </ul>
-      <div className='NoteListNav__button-wrapper'>
+export default class NotePageNav extends React.Component {
+  static defaultProps = {
+    history: {
+      goBack: () => { }
+    },
+    match: {
+      params: {}
+    }
+  }
+  static contextType = ApiContext;
+
+  render() {
+    const { notes, folders, } = this.context
+    const { noteId } = this.props.match.params
+    const note = findNote(notes, noteId) || {}
+    const folder = findFolder(folders, note.folderId)
+    return (
+      <div className='NotePageNav'>
         <CircleButton
-          tag={Link}
-          to='/add-folder'
-          type='button'
-          className='NoteListNav__add-folder-button'
+          tag='button'
+          role='link'
+          onClick={() => this.props.history.goBack()}
+          className='NotePageNav__back-button'
         >
+          <FontAwesomeIcon icon='chevron-left' />
           <br />
-          Folder
+          Back
         </CircleButton>
+        {folder && (
+          <h3 className='NotePageNav__folder-name'>
+            {folder.name}
+          </h3>
+        )}
       </div>
-    </div>
-  )
-}
-
-NoteListNav.defaultProps = {
-  folders: []
+    )
+  }
 }
