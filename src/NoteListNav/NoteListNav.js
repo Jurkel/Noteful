@@ -1,50 +1,49 @@
-import React from 'react'
+import React, {Component} from 'react'
+import { NavLink, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import CircleButton from '../CircleButton/CircleButton'
-import ApiContext from '../ApiContext'
+import { countNotesForFolder } from '../notes-helpers'
+import NotesContext from '../NotesContext';
 import './NoteListNav.css'
 
-export default class NotePageNav extends React.Component {
-  static defaultProps = {
-    history: {
-      goBack: () => { }
-    },
-    match: {
-      params: {}
-    }
-  }
+class NoteListNav extends Component {
+  
+  static contextType = NotesContext
 
-  findFolder = (folders=[], folderId) =>
-  folders.find(folder => folder.id === folderId)
-
-  findNote = (notes=[], noteId) =>
-  notes.find(note => note.id === noteId)
-
-  static contextType = ApiContext;
-
-  render() {
-    const { notes, folders, } = this.context
-    const { noteId } = this.props.match.params
-    const note = this.findNote(notes, noteId) || {}
-    const folder = this.findFolder(folders, note.folderId)
+  render(){
+    const {notes, folders} = this.context;
     return (
-      <div className='NotePageNav'>
-        <CircleButton
-          tag='button'
-          role='link'
-          onClick={() => this.props.history.goBack()}
-          className='NotePageNav__back-button'
-        >
-          <FontAwesomeIcon icon='chevron-left' />
-          <br />
-          Back
-        </CircleButton>
-        {folder && (
-          <h3 className='NotePageNav__folder-name'>
-            {folder.name}
-          </h3>
-        )}
+      <div className='NoteListNav'>
+        <ul className='NoteListNav__list'>
+          {folders.map(folder =>
+            <li key={folder.id}>
+              <NavLink
+                className='NoteListNav__folder-link'
+                to={`/folder/${folder.id}`}
+              >
+                <span className='NoteListNav__num-notes'>
+                  {countNotesForFolder(notes, folder.id)}
+                </span>
+                {folder.name}
+              </NavLink>
+            </li>
+          )}
+        </ul>
+        <div className='NoteListNav__button-wrapper'>
+          <CircleButton
+            tag={Link}
+            to='/add-folder'
+            type='button'
+            className='NoteListNav__add-folder-button'
+          >
+            <FontAwesomeIcon icon='plus' />
+            <br />
+            Folder
+          </CircleButton>
+        </div>
       </div>
     )
   }
 }
+
+export default NoteListNav

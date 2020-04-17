@@ -18,7 +18,7 @@
   overflow: auto;
 }
 
-.App_header {
+.App__header {
   background-color: #0b1f3a;
   color: #bdbdbd;
   font-family: var(--custom-font);
@@ -28,7 +28,7 @@
   text-shadow: 2px 1px 2px black;
 }
 
-.App_header a {
+.App__header a {
   color: #bdbdbd;
 }
 
