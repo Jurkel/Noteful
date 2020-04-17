@@ -8,7 +8,7 @@ import NotePageMain from '../NotePageMain/NotePageMain'
 import NotesContext from '../NotesContext';
 import AddFolder from '../AddFolder/AddFolder';
 import AddNote from '../AddNote/AddNote';
-import { findNote } from '../notes-helpers';
+import { findNote } from '../note-helpers';
 import HandleError from '../HandleError';
 import './App.css'
 
