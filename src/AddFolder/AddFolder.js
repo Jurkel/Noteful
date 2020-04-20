@@ -1,86 +1,70 @@
-import React, { Component } from 'react';
-import ValiationError from './ValidationError';
-import NotesContext from '../NotesContext';
+import React from 'react'
+import NotefulForm from '../NotefulForm/NotefulForm'
+import ApiContext from '../ApiContext'
+import './AddFolder.css'
+import uuid from 'uuid/v4';
 
-export default class AddFolder extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {   
-      name: '',
-      folderValid: false,
-      validMessage: ''
-    }
+
+class AddFolder extends React.Component {
+  static defaultProps = {
+    history: {
+      push: () => { }
+    },
   }
-  
-  static contextType = NotesContext;
+  static contextType = ApiContext;
 
-  updateFolder(name) {
-    this.setState( {name: name}, () => {this.validateFolder(name)} )
-  }
-
-  validateFolder(inputValue) {
-    let errorMsg = this.state.validMessage;
-    let hasError = false;
-
-    inputValue = inputValue.trim();
-    if (inputValue.length === 0) {
-      errorMsg = 'Folder Name is required';
-      hasError = true;
-
-    } else if (inputValue.length < 3) {
-      errorMsg = 'Folder Name must be at least 3 characters';
-      hasError = true;
-
-    } else {
-      errorMsg = '';
-      hasError = false;
+  handleSubmit = e => {
+    e.preventDefault()
+    const folder = {
+      id: uuid(),
+      name: e.target['folder-name'].value
     }
 
-    this.setState({
-      validMessage: errorMsg,
-      folderValid: !hasError
-    })
-
-  }
-
-  addFolderRequest(name, addFolder) {
-    fetch(`http://localhost:9090/folders`, {
-      method: 'POST',
-      headers: {
+    try{
+      fetch('https://noteful-db.herokuapp.com/folders', {
+        method: 'POST',
+        headers: {
         'content-type': 'application/json'
-      },
-      body: JSON.stringify({name: name})
-    })
-    .then(res => {
-      if (!res.ok) {
-        throw new Error('Unable to add folder to database')
+        },
+        body: JSON.stringify(folder),
+      })
+      .then(res => {
+        if (!res.ok)
+          return res.json().then(e => Promise.reject(e))
+        return res.json()
+      })
+      .then(folder => {
+        this.context.addFolder(folder[0])
+        this.props.history.push(`/folder/${folder[0].id}`)
+      })
+      }catch(error){
+        console.error(error)
       }
-      return res.json();
-    })
-    .then(res => addFolder(res))
-    .catch(err => console.log(name, err))
   }
 
   render() {
-    console.log(this.props)
-
-    const { addFolder } = this.context
-
-    this.handleSubmit = (event) => {
-      event.preventDefault();
-      console.log(addFolder)
-      this.addFolderRequest(this.state.name, addFolder);
-    }
-
     return (
-      <form onSubmit={ (e) => this.handleSubmit(e) }>
-        <label>Add Folder: 
-          <input onChange={ (e) => this.updateFolder(e.target.value) } type="text" name="addFolder" id="addFolder"></input>
-        </label>
-        <ValiationError hasError={!this.state.folderValid} message={this.state.validMessage}/>
-        <button type="submit" disabled={!this.state.folderValid}>Submit</button>
-      </form>
+      <section className='AddFolder'>
+        <h2>Create a folder</h2>
+        <NotefulForm onSubmit={this.handleSubmit}>
+          <div className='field'>
+            <label htmlFor='folder-name-input'>
+              Name
+            </label>
+            <input type='text' id='folder-name-input' name='folder-name' />
+          </div>
+          <div className='buttons'>
+            <button type='submit'>
+              Add folder
+            </button>
+          </div>
+        </NotefulForm>
+      </section>
     )
   }
-
 }
+
+
+
+
+export default AddFolder;

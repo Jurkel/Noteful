@@ -5,77 +5,114 @@ import NoteListNav from '../NoteListNav/NoteListNav'
 import NotePageNav from '../NotePageNav/NotePageNav'
 import NoteListMain from '../NoteListMain/NoteListMain'
 import NotePageMain from '../NotePageMain/NotePageMain'
-import NotesContext from '../NotesContext';
-import AddFolder from '../AddFolder/AddFolder';
-import AddNote from '../AddNote/AddNote';
-import { findNote } from '../note-helpers';
-import HandleError from '../HandleError';
+import AddFolder from '../AddFolder/AddFolder'
+import AddNote from '../AddNote/AddNote'
+import ApiContext from '../ApiContext'
+
 import './App.css'
 
 class App extends Component {
-  state = {
-    notes: [],
-    folders: []
-  };
 
-  getFolders() {
-    fetch('http://localhost:9090/folders')
-    .then(res => {
-      if(!res.ok) {
-        throw new Error('Opps! Something went wrong')
-      }
-      return res.json()
-    })
-    .then(resjson => this.setState({folders: resjson}))
-    .catch(err => <NoteListMain error={err} />)
+  constructor(props){
+    super(props);
+    this.state = {
+      notes: [],
+      folders: [],
+      error: null,
+      errorInfo: null
+    };
+  
   }
-
-  getNotes() {
-    fetch('http://localhost:9090/notes')
-    .then(res => {
-      if(!res.ok) {
-        throw new Error('Opps! Something went wrong')
-      }
-      return res.json()
-    })
-    .then(resjson => this.setState({notes: resjson}))
-    .catch(err => <NoteListMain error={err} />)
-  }
-
-  deleteNote = noteId => {
-    const newNotes = this.state.notes.filter((note) => note.id !== noteId);
-    this.setState({notes: newNotes})
-  }
-
-  addFolder = (folder) => {
-    this.setState({folders: [...this.state.folders, folder]})
-  }
-
-  addNote = (note) => {
-    this.setState({notes: [...this.state.notes, note]})
-  }
-
+  
   componentDidMount() {
-    // fake date loading from API call
-    // setTimeout(() => this.setState(dummyStore), 600)
-    //fetch 1)folders and 2) notes
-    this.getFolders()
-    this.getNotes()
+    
+    try{
+    Promise.all([
+      fetch('https://noteful-db.herokuapp.com/notes'),
+      fetch('https://noteful-db.herokuapp.com/folders')
+    ])
+      .then(([notesRes, foldersRes]) => {
+        if (!notesRes.ok)
+          return notesRes.json().then(e => Promise.reject(e))
+        if (!foldersRes.ok)
+          return foldersRes.json().then(e => Promise.reject(e))
+
+        return Promise.all([
+          notesRes.json(),
+          foldersRes.json(),
+        ])
+      })
+      .then(([notes, folders]) => {
+        this.setState({ notes, folders })
+      })
+      }catch(error){
+        console.error( error)
+      }
+  }
+
+  componentDidCatch(error, errorInfo){
+    this.setState({
+      error,
+      errorInfo
+    })
+  }
+
+  handleAddFolder = folder => {
+    try{
+      this.setState({
+        folders: [
+          ...this.state.folders,
+          folder
+        ]
+      })
+    } catch (error){
+      this.setState({
+        error
+      })
+    }
+  }
+
+  handleAddNote = note => {
+    try{
+      this.setState({
+        notes: [
+          ...this.state.notes,
+          note
+        ]
+      })
+    } catch (error){
+      this.setState({
+        error
+      })
+    }
+  }
+
+  updateFolders = (folders) =>{
+    this.setState({folders})
+  }
+
+  handleDeleteNote = noteId => {
+    try{
+      this.setState({
+        notes: this.state.notes.filter(note => note.id !== noteId)
+      })
+    } catch (error) {
+      this.setState({
+        error
+      })
+    }
   }
 
   renderNavRoutes() {
     return (
-      <HandleError>
       <>
         {['/', '/folder/:folderId'].map(path =>
-        
           <Route
             exact
             key={path}
             path={path}
             component={NoteListNav}
           />
-          
         )}
         <Route
           path='/note/:noteId'
@@ -83,23 +120,18 @@ class App extends Component {
         />
         <Route
           path='/add-folder'
-          component={AddFolder}
+          component={NotePageNav}
         />
         <Route
           path='/add-note'
-          component={AddNote}
+          component={NotePageNav}
         />
-        
       </>
-        </HandleError>
-      
     )
   }
 
   renderMainRoutes() {
-    const { notes } = this.state
     return (
-      <HandleError>
       <>
         {['/', '/folder/:folderId'].map(path =>
           <Route
@@ -111,41 +143,36 @@ class App extends Component {
         )}
         <Route
           path='/note/:noteId'
-          render={routeProps => {
-            const { noteId } = routeProps.match.params
-            const note = findNote(notes, noteId)
-            return (
-              <NotePageMain
-                {...routeProps}
-                note={note}
-              />
-            )
-          }}
+          component={NotePageMain}
         />
         <Route
-          path='/add-folder'       
+          path='/add-folder'
+          component={AddFolder}
         />
         <Route
           path='/add-note'
+          component={AddNote}
         />
       </>
-      </HandleError>
     )
   }
 
   render() {
-
-    const contextValue = {
-      folders: this.state.folders,
+    const value = {
       notes: this.state.notes,
-      deleteNote: this.deleteNote,
-      addFolder: this.addFolder,
-      addNote: this.addNote
+      folders: this.state.folders,
+      addFolder: this.handleAddFolder,
+      addNote: this.handleAddNote,
+      updateFolders: this.updateFolders,
+      deleteNote: this.handleDeleteNote,
+    }
+
+    if(this.state.error){
+      return <h1>Caught an error!</h1>
     }
 
     return (
-      <HandleError>
-      <NotesContext.Provider value={contextValue}>
+      <ApiContext.Provider value={value}>
         <div className='App'>
           <nav className='App__nav'>
             {this.renderNavRoutes()}
@@ -161,8 +188,7 @@ class App extends Component {
             {this.renderMainRoutes()}
           </main>
         </div>
-      </NotesContext.Provider>
-      </HandleError>
+      </ApiContext.Provider>
     )
   }
 }

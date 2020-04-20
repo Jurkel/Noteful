@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import CircleButton from '../CircleButton/CircleButton'
-import NotesContext from '../NotesContext'
+import NotesContext from '../ApiContext'
 import './NotePageNav.css'
 
 class NotePageNav extends Component {
