@@ -1,7 +1,28 @@
+.no-folders{
+  width: 30%;
+  margin-left: auto;
+  color: white;
+}
+
 .NoteListNav__list {
   list-style-type: none;
   margin: 130px 0 0;
   padding: 0;
+}
+
+
+#delete_folder{
+  display: block;
+  width: 4em;
+  height: 2em;
+  color: white;
+  margin: -.5em 0 1.5em auto;
+  background-color: rgb(77, 96, 204);
+  border: none;
+}
+
+#delete_folder:hover{
+  background-color: red;
 }
 
 .NoteListNav__button-wrapper {
