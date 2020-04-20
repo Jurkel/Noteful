@@ -21,7 +21,7 @@ class AddFolder extends React.Component {
     }
 
     try{
-      fetch('https://noteful-db.herokuapp.com/folders', {
+      fetch('http://localhost:9090/folders', {
         method: 'POST',
         headers: {
         'content-type': 'application/json'
