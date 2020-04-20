@@ -105,10 +105,9 @@ export default class AddNote extends Component {
     console.log(this.props)
 
 
-    this.handleSubmit= (event) => {
+  this.handleSubmit= (event) => {
     event.preventDefault();
-    this.addNoteRequest(this.state.noteName, this.state.noteContent, this.context.folders.find((folder) => folder.name === this.state.folder).id
-    , new Date(), addNote)
+    this.addNoteRequest(this.state.noteName, this.state.noteContent, this.context.folders.find((folder) => folder.name === this.state.folder).id, new Date(), addNote)
   }
 
     const { addNote } = this.context
