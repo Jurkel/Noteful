@@ -1,0 +1,48 @@
+.FolderNav {
+  min-width: 300px;
+  margin-top: 70px;
+}
+.FolderNav__list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-decoration: none;
+  flex-grow: 2;
+  padding-right: 30px;
+
+  margin-right: 60px;
+  list-style: none;
+  
+ 
+  
+}
+
+h1 {
+  color: white;
+}
+
+.Folder__list {
+  justify-self: center;
+  background-color: white;
+  text-decoration: none;
+  border: 1px solid black;
+  font-size: 20px;
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.NoteListNav__button {
+  background-color: white;
+  margin-left: 100px;
+  padding-top: 10px;
+  width: 70px;
+  height: 60px;
+  border-radius: 160em;
+  margin-top: 30px;
+}

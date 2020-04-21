@@ -1,29 +1,39 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Note from '../Note/Note'
-import CircleButton from '../CircleButton/CircleButton'
-import ApiContext from '../ApiContext'
-import { getNotesForFolder } from '../notes-helpers'
-import './NoteListMain.css'
+import NavButton from '../NavButton/NavButton'
+import NotefulContext from '../NotefulContext'
+import './NoteList.css'
+// import { getNotesForFolder } from '../notes-helpers';
 
-export default class NoteListMain extends React.Component {
+export default class NoteList extends React.Component {
   static defaultProps = {
     match: {
       params: {}
-    }
+    },
   }
-  static contextType = ApiContext
+  static contextType = NotefulContext
 
   render() {
     const { folderId } = this.props.match.params
     const { notes=[] } = this.context
+    const getNotesForFolder = (notes=[], folderId) => (
+      (!folderId)
+        ? notes
+        : notes.filter(note => note.folderId === folderId)
+    )
+    console.log(getNotesForFolder)
     const notesForFolder = getNotesForFolder(notes, folderId)
+    console.log(notesForFolder)
     return (
       <section className='NoteListMain'>
-        <ul>
+        <h1>Notes:</h1>
+        <ul className="NoteNav__list">
           {notesForFolder.map(note =>
-            <li key={note.id}>
+            <li 
+            key={note.id}
+            className="note__list"
+            >
               <Note
                 id={note.id}
                 name={note.name}
@@ -32,17 +42,17 @@ export default class NoteListMain extends React.Component {
             </li>
           )}
         </ul>
-        <div className='NoteListMain__button-container'>
-          <CircleButton
+        <div className='NoteListNavNote__button'>
+          <NavButton
             tag={Link}
             to='/add-note'
             type='button'
             className='NoteListMain__add-note-button'
           >
-            <FontAwesomeIcon icon='plus' />
+            + 
             <br />
             Note
-          </CircleButton>
+          </NavButton>
         </div>
       </section>
     )

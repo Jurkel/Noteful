@@ -1,7 +1,9 @@
 .AddFolder {
-  color: #dedede;
-}
-
-.AddFolder h2 {
-  margin-left: 16px;
-}
+  color: white;
+  margin-left: 100px;
+  }
+  
+  .buttons {
+    margin-top: 20px;
+    width: 100px;
+  }

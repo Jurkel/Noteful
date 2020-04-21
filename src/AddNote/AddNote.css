@@ -1,7 +1,34 @@
-.AddNote {
-  color: #dedede;
+.NotePage__back-button {
+  margin-top: 20px;
+  background-color: white;
 }
 
-.AddNote h2 {
-  margin-left: 16px;
+.field {
+  width: 200px;
+  color: white;
+  /* margin-left: 50px; */
+}
+
+.AddNote {
+  color: white;
+  margin-left: 50px;
+}
+
+#note-name-input {
+  margin-bottom: 20px;
+}
+
+#note-folder-select {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 10px;
+  background-color: white;
+}
+
+button {
+  background-color: white;
+}
+
+button:hover {
+  cursor: pointer;
 }
