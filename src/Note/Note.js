@@ -48,7 +48,7 @@ export default class Note extends React.Component {
         {/* </h2> */}
         <div className="Modfied__dates">
           <span className="Date">
-            {format(modified, 'MMMM Do, YYYY')}
+            {/* {format(modified, 'MMMM Do, YYYY')} */}
           </span>
         </div>
         <button
