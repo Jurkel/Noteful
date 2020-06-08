@@ -3,6 +3,8 @@ import NotefulForm from '../NotefulForm/NotefulForm'
 import NotefulContext from '../NotefulContext'
 import ValidationError from '../ValidationError'
 import './AddFolder.css'
+import { API_ENDPOINT } from './config'
+
 export default class AddFolder extends Component {
   static defaultProps = {
     history: {
@@ -37,7 +39,7 @@ export default class AddFolder extends Component {
     const folder = {
       name: e.target['folder-name'].value
     }
-    fetch(`http://localhost:9090/folders`, {
+    fetch(`${API_ENDPOINT}/folders`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'

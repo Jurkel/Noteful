@@ -5,6 +5,7 @@ import NavButton from '../NavButton/NavButton'
 import './AddNote.css'
 import ValidationError from '../ValidationError'
 import moment from 'moment';
+import { API_ENDPOINT } from './config'
 
 
 export default class AddNote extends Component {
@@ -64,7 +65,7 @@ export default class AddNote extends Component {
       folderId: e.target['note-folder-id'].value,
       modified: moment(),
     }
-    fetch(`http://localhost:9090/notes`, {
+    fetch(`${API_ENDPOINT}/notes`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
