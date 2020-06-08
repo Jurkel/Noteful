@@ -3,7 +3,7 @@ import NotefulForm from '../NotefulForm/NotefulForm'
 import NotefulContext from '../NotefulContext'
 import ValidationError from '../ValidationError'
 import './AddFolder.css'
-import { API_ENDPOINT } from './config'
+import { API_ENDPOINT } from '../config'
 
 export default class AddFolder extends Component {
   static defaultProps = {

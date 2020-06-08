@@ -5,7 +5,7 @@ import NavButton from '../NavButton/NavButton'
 import './AddNote.css'
 import ValidationError from '../ValidationError'
 import moment from 'moment';
-import { API_ENDPOINT } from './config'
+import { API_ENDPOINT } from '../config'
 
 
 export default class AddNote extends Component {
