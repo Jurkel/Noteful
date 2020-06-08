@@ -9,6 +9,7 @@ import AddFolder from '../AddFolder/AddFolder';
 import AddNote from '../AddNote/AddNote'
 import NotefulError from '../NotefulError/NotefulError';
 import './App.css';
+import { API_ENDPOINT } from '../config'
 
 class App extends Component {
     state = {
@@ -18,8 +19,8 @@ class App extends Component {
 
     componentDidMount() {
         Promise.all([
-            fetch(`http://localhost:9090/notes`),
-            fetch(`http://localhost:9090/folders`)
+            fetch(`${API_ENDPOINT}/notes`),
+            fetch(`${API_ENDPOINT}/folders`)
         ])
             .then(([notesResponse, foldersResponse]) => {
                 if (!notesResponse.ok)

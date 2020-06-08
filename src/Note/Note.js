@@ -4,6 +4,7 @@ import NotefulContext from '../NotefulContext'
 import './Note.css'
 import { format } from 'date-fns'
 import propTypes from 'prop-types';
+import { API_ENDPOINT } from '../config'
 
 
 export default class Note extends React.Component {
@@ -16,7 +17,7 @@ export default class Note extends React.Component {
     e.preventDefault()
     const noteId = this.props.id
 
-    fetch(`http://localhost:9090/notes/${noteId}`, {
+    fetch(`${API_ENDPOINT}/notes/${noteId}`, {
       method: 'DELETE',
       headers: {
         'content-type': 'application/json'
