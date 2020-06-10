@@ -68,7 +68,8 @@ export default class AddNote extends Component {
     fetch(`${API_ENDPOINT}/notes`, {
       method: 'POST',
       headers: {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        "Access-Control-Allow-Origin": "*"
       },
       body: JSON.stringify(newNote),
     })
