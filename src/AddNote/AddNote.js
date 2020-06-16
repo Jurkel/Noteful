@@ -69,7 +69,7 @@ export default class AddNote extends Component {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        "Access-Control-Allow-Origin": "*"
+        'Access-Control-Allow-Origin': '*'
       },
       body: JSON.stringify(newNote),
     })
