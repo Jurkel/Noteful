@@ -19,8 +19,18 @@ class App extends Component {
 
     componentDidMount() {
         Promise.all([
-            fetch(`${API_ENDPOINT}/notes`),
-            fetch(`${API_ENDPOINT}/folders`)
+            fetch(`${API_ENDPOINT}/notes`, {
+                method: 'GET',
+                headers: {
+                'content-type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            }}),
+            fetch(`${API_ENDPOINT}/folders`, {
+                method: 'GET',
+                headers: {
+                'content-type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            }})
         ])
             .then(([notesResponse, foldersResponse]) => {
                 if (!notesResponse.ok)
