@@ -20,17 +20,11 @@ class App extends Component {
     componentDidMount() {
         Promise.all([
             fetch(`${API_ENDPOINT}/notes`, {
-                method: 'GET',
-                headers: {
-                'content-type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            }}),
+                mode: 'no-cors' // 'cors' by default
+              }),
             fetch(`${API_ENDPOINT}/folders`, {
-                method: 'GET',
-                headers: {
-                'content-type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            }})
+                mode: 'no-cors' // 'cors' by default
+              })
         ])
             .then(([notesResponse, foldersResponse]) => {
                 if (!notesResponse.ok)
