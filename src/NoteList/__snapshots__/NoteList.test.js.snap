@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NoteListMain component renders a .NoteListMain by default 1`] = `
+<section
+  className="NoteListMain"
+>
+  <h1>
+    Notes:
+  </h1>
+  <ul
+    className="NoteNav__list"
+  />
+  <div
+    className="NoteListNavNote__button"
+  >
+    <NavButton
+      className="NoteListMain__add-note-button"
+      tag={
+        Object {
+          "$$typeof": Symbol(react.forward_ref),
+          "displayName": "Link",
+          "propTypes": Object {
+            "innerRef": [Function],
+            "onClick": [Function],
+            "replace": [Function],
+            "target": [Function],
+            "to": [Function],
+          },
+          "render": [Function],
+        }
+      }
+      to="/add-note"
+      type="button"
+    >
+      +
+      <br />
+      Note
+    </NavButton>
+  </div>
+</section>
+`;
+
+exports[`NoteListMain component renders a Note in ul for each notes in array 1`] = `
+<ul
+  className="NoteNav__list"
+/>
+`;

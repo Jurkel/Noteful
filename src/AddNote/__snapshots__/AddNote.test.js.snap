@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddNote component renders the complete form 1`] = `
+<section
+  className="AddNote"
+>
+  <h2>
+    Write a note
+  </h2>
+  <NotefulForm
+    onSubmit={[Function]}
+  >
+    <div
+      className="field"
+    >
+      <label
+        htmlFor="note-name-input"
+      >
+        Name:
+      </label>
+      <input
+        id="note-name-input"
+        name="note-name"
+        onChange={[Function]}
+        type="text"
+      />
+      <ValidationError
+        message="Name is required"
+      />
+    </div>
+    <div
+      className="field"
+    >
+      <label
+        htmlFor="note-content-input"
+      >
+        Content:
+      </label>
+      <textarea
+        id="note-content-input"
+        name="note-content"
+        onChange={[Function]}
+      />
+      <ValidationError
+        message="Content is required"
+      />
+    </div>
+    <div
+      className="field"
+    >
+      <label
+        htmlFor="note-folder-select"
+      >
+        Folder:
+      </label>
+      <select
+        id="note-folder-select"
+        name="note-folder-id"
+      />
+    </div>
+    <div
+      className="buttons"
+    >
+      <button
+        disabled="Name is required"
+        type="submit"
+      >
+        Add note
+      </button>
+    </div>
+  </NotefulForm>
+  <NavButton
+    className="NotePage__back-button"
+    onClick={[Function]}
+    role="link"
+    tag="button"
+  >
+    <br />
+    Back
+  </NavButton>
+</section>
+`;
+
+exports[`AddNote component renders the select options from folders 1`] = `
+<select
+  id="note-folder-select"
+  name="note-folder-id"
+/>
+`;
