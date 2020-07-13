@@ -23,11 +23,12 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "prebuild": "react-scripts test --colors",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "serve": "serve -s build",
-    "preserve": "npm run build"
+    "predeploy": "npm run build",
+    "deploy": "vercel --prod"
   },
   "eslintConfig": {
     "extends": "react-app"
