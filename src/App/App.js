@@ -28,11 +28,11 @@ class App extends Component {
         ])
             .then(([notesResponse, foldersResponse]) => {
                 if (!notesResponse.ok) {
-                    console.log(notesResponse.statusText());
+                    console.log(notesResponse.statusText);
                 }
                     // return notesResponse.json()
                 if (!foldersResponse.ok) {
-                    console.log(foldersResponse.statusText());
+                    console.log(foldersResponse.statusText);
                 }
                     // return foldersResponse.json()
 
