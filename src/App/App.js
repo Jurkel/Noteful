@@ -27,10 +27,14 @@ class App extends Component {
               })
         ])
             .then(([notesResponse, foldersResponse]) => {
-                if (!notesResponse.ok)
-                    return notesResponse.json()
-                if (!foldersResponse.ok)
-                    return foldersResponse.json()
+                if (!notesResponse.ok) {
+                    console.log(notesResponse.statusText());
+                }
+                    // return notesResponse.json()
+                if (!foldersResponse.ok) {
+                    console.log(foldersResponse.statusText());
+                }
+                    // return foldersResponse.json()
 
                 return Promise.all([notesResponse.json(), foldersResponse.json()]);
             })
