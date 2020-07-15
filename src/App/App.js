@@ -17,29 +17,31 @@ class App extends Component {
         folders: [],
     };
 
-    componentDidMount() {
-        Promise.all([
-            fetch(`${API_ENDPOINT}/notes`, {
-                mode: 'no-cors' // 'cors' by default
-              }),
-            fetch(`${API_ENDPOINT}/folders`, {
-                mode: 'no-cors' // 'cors' by default
-              })
-        ])
-            .then(([notesResponse, foldersResponse]) => {
-                if (!notesResponse.ok) {
-                    console.log(notesResponse.statusText);
+    handlePromiseAllJsons = (arr) => {
+        let promiseArray = [];
+        arr.forEach(a => {
+            console.log(a);
+            if(a.ok) {
+                promiseArray.push(a.json());
                 }
-                    // return notesResponse.json()
-                if (!foldersResponse.ok) {
-                    console.log(foldersResponse.statusText);
-                }
-                    // return foldersResponse.json()
+        })
+        return promiseArray;
+    }
 
-                return Promise.all([notesResponse.json(), foldersResponse.json()]);
+    componentDidMount() {
+        console.log('API ENDPOINT: ' + `${API_ENDPOINT}`)
+        Promise.all([
+            fetch(`${API_ENDPOINT}/notes`),
+            fetch(`${API_ENDPOINT}/folders`)
+        ])
+            .then((arr) => {
+                return Promise.all(this.handlePromiseAllJsons(arr));
             })
-            .then(([notes, folders]) => {
-                this.setState({notes, folders});
+            .then((response) => {
+                this.setState({
+                    notes: response[0],
+                    folders: response[1]
+                })
             })
             .catch(error => {
                 console.error(error);
@@ -74,7 +76,7 @@ class App extends Component {
     renderNavRoutes() {
         return (
             <React.Fragment>
-                {['/', '/folder/:folderId'].map(path => 
+                {['/', '/folder/:folderid'].map(path => 
                     <Route
                         exact
                         key={path}
@@ -92,7 +94,7 @@ class App extends Component {
     renderMainRoutes() {
         return (
             <React.Fragment>
-                {['/', '/folder/:folderId'].map(path => 
+                {['/', '/folder/:folderid'].map(path => 
                     
                     <Route
                         exact

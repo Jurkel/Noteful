@@ -15,16 +15,21 @@ export default class NoteList extends React.Component {
   static contextType = NotefulContext
 
   render() {
-    const { folderId } = this.props.match.params
+    const { folderid } = this.props.match.params
     const { notes=[] } = this.context
-    const getNotesForFolder = (notes=[], folderId) => (
-      (!folderId)
-        ? notes
-        : notes.filter(note => note.folderId === folderId)
-    )
-    console.log(getNotesForFolder)
-    const notesForFolder = getNotesForFolder(notes, folderId)
-    console.log(notesForFolder)
+    const getNotesForFolder = (notes=[], folderid) => {
+      if(typeof folderid == 'undefined') {
+        return notes;
+      } else {
+        return notes.filter(note => note.folderid == folderid)
+      }
+      // (!folderid)
+      //   ? notes
+      //   : notes.filter(note => note.folderid === folderid)
+    }
+    console.log('getNotesForFolder' + getNotesForFolder)
+    const notesForFolder = getNotesForFolder(notes, folderid)
+    console.log('notesForFolder' + notesForFolder)
     return (
       <section className='NoteListMain'>
         <h1>Notes:</h1>
@@ -35,7 +40,7 @@ export default class NoteList extends React.Component {
             className="note__list"
             >
               <Note
-                id={note.id}
+                id={(note.id).toString()}
                 name={note.name}
                 modified={note.modified}
               />
