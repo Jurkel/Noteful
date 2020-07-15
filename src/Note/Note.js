@@ -5,6 +5,7 @@ import './Note.css'
 import { format } from 'date-fns'
 import propTypes from 'prop-types';
 import { API_ENDPOINT } from '../config'
+import moment from 'moment'
 
 
 export default class Note extends React.Component {
@@ -49,7 +50,7 @@ export default class Note extends React.Component {
         {/* </h2> */}
         <div className="Modfied__dates">
           <span className="Date">
-            {/* {format(modified, 'MMMM Do, YYYY')} */}
+            {/* {moment(modified, 'MMMM Do, YYYY')} */}
           </span>
         </div>
         <button

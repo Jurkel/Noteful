@@ -43,6 +43,7 @@ export default class NoteList extends React.Component {
                 id={(note.id).toString()}
                 name={note.name}
                 modified={note.modified}
+                content={note.content}
               />
             </li>
           )}
